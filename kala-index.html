@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KALA — The Living Oracle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:wght@400;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0612;--cream:#f5efe8;--gold:#c9a84c;--rose:#d4537e;
+  --violet:#7c3aed;--soft-violet:#a855f7;--pink:#ec4899;
+  --muted:#8b6fab;--dim:#6b4d8a;--card:rgba(255,255,255,0.04);
+  --border:rgba(183,130,255,0.2);--border-hover:rgba(183,130,255,0.5);
+  --text:#f0e6ff;--text-soft:#c9a8f0;--text-dim:#9b77c4;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--ink);color:var(--text);
+  font-family:'Space Mono',monospace;
+  min-height:100vh;overflow-x:hidden;
+}
+
+/* STARS */
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d,3s) ease-in-out infinite;}
+@keyframes tw{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.7;transform:scale(1.3)}}
+
+.scanline{
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+  pointer-events:none;z-index:1;
+}
+
+/* LAYOUT */
+#app{position:relative;z-index:2;max-width:680px;margin:0 auto;padding:0 16px 80px;}
+
+/* TOP BAR */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 0;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:rgba(10,6,18,0.92);
+  backdrop-filter:blur(12px);z-index:20;
+  margin:0 -16px;padding-left:16px;padding-right:16px;
+}
+
+.app-wordmark{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:22px;font-weight:400;
+  background:linear-gradient(135deg,#e8c5ff,#b98fff,#ff9de2);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:0.04em;
+}
+
+.lang-toggle{
+  display:flex;gap:0;border:1px solid var(--border);border-radius:20px;overflow:hidden;
+}
+.lang-btn{
+  padding:6px 14px;font-size:10px;letter-spacing:0.1em;
+  background:transparent;border:none;cursor:pointer;
+  color:var(--text-dim);font-family:'Space Mono',monospace;
+  transition:background 0.2s,color 0.2s;
+}
+.lang-btn.active{background:rgba(168,85,247,0.2);color:var(--text);}
+.lang-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:13px;letter-spacing:0;}
+
+/* NAV TABS */
+.nav{
+  display:flex;gap:0;border-bottom:1px solid var(--border);
+  margin:0 -16px;padding:0 16px;overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none;}
+.nav-tab{
+  padding:14px 18px;font-size:9px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--dim);cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  background:none;border-top:none;border-left:none;border-right:none;
+  font-family:'Space Mono',monospace;transition:color 0.2s,border-color 0.2s;
+}
+.nav-tab.active{color:var(--text-soft);border-bottom-color:var(--soft-violet);}
+.nav-tab:hover{color:var(--text-soft);}
+.nav-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:12px;letter-spacing:0;text-transform:none;}
+
+/* PANELS */
+.panel{display:none;padding-top:24px;}
+.panel.active{display:block;}
+
+/* HERO */
+.hero{text-align:center;padding:40px 0 28px;}
+.hero-moon{display:block;margin:0 auto 18px;animation:float 6s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.hero-title{
+  font-family:'Playfair Display',serif;font-size:38px;font-style:italic;font-weight:400;
+  background:linear-gradient(135deg,#e8c5ff 0%,#b98fff 40%,#ff9de2 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:6px;line-height:1.1;
+}
+.hero-title-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:32px;}
+.hero-sub{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
+.hero-sub-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:11px;letter-spacing:0.05em;text-transform:none;}
+
+/* INPUT CARD */
+.input-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:24px 20px;margin:20px 0;
+}
+.ic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.ic-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block;}
+.ic-label-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:11px;letter-spacing:0;text-transform:none;}
+.ic-input{
+  width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid var(--border);border-radius:10px;
+  padding:10px 12px;font-family:'Space Mono',monospace;font-size:12px;
+  color:var(--text);transition:border-color 0.2s;
+}
+.ic-input:focus{outline:none;border-color:var(--border-hover);}
+.gen-btn{
+  width:100%;padding:14px;
+  background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);
+  border:none;border-radius:12px;font-family:'Space Mono',monospace;
+  font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+  color:#fff;cursor:pointer;transition:opacity .15s,transform .15s;
+}
+.gen-btn:hover{opacity:.88;transform:scale(1.005);}
+.gen-btn:active{transform:scale(.97);}
+.gen-btn-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:13px;letter-spacing:0;text-transform:none;}
+
+/* PHASE HERO */
+.phase-hero{
+  border-radius:24px;overflow:hidden;margin:8px 0 20px;
+  padding:32px 24px;border:1px solid rgba(183,130,255,0.3);
+  position:relative;
+}
+.phase-bg{position:absolute;inset:0;z-index:0;}
+.phase-content{position:relative;z-index:1;}
+.phase-glyph{font-size:52px;display:block;margin-bottom:12px;animation:float 4s ease-in-out infinite;}
+.phase-tag{
+  display:inline-block;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;
+  background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.8);margin-bottom:12px;
+}
+.phase-tag-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:11px;letter-spacing:0;text-transform:none;}
+.phase-name{
+  font-family:'Playfair Display',serif;font-size:26px;font-style:italic;
+  color:#fff;margin-bottom:8px;line-height:1.2;
+}
+.phase-name-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:22px;}
+.phase-essence{font-size:13px;line-height:1.8;color:rgba(255,255,255,.82);}
+.phase-essence-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:14px;line-height:1.9;}
+
+.lunar-track{display:flex;gap:3px;align-items:center;margin:12px 0;}
+.l-seg{flex:1;height:3px;border-radius:2px;background:rgba(183,130,255,.15);}
+.l-seg.lit{background:rgba(183,130,255,.7);}
+.phase-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#ec4899);flex-shrink:0;}
+
+/* ORBIT PILLS */
+.orbit-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:18px 0;}
+.orbit-pill{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:12px 8px;text-align:center;transition:border-color .2s,transform .2s;cursor:default;
+}
+.orbit-pill:hover{border-color:var(--border-hover);transform:translateY(-2px);}
+.op-icon{font-size:18px;display:block;margin-bottom:5px;}
+.op-label{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.op-label-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:10px;letter-spacing:0;text-transform:none;}
+.op-val{font-size:12px;color:#e0c8ff;font-family:'Playfair Display',serif;font-style:italic;}
+.op-val-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:13px;}
+
+/* SECTION HED */
+.sec-hed{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);
+  margin:24px 0 10px;display:flex;align-items:center;gap:10px;
+}
+.sec-hed::before,.sec-hed::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(183,130,255,.3),transparent);
+}
+.sec-hed-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:11px;letter-spacing:0;text-transform:none;}
+
+/* ACTIONS */
+.actions-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:18px;margin-bottom:16px;
+}
+.action-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:9px 0;border-bottom:1px solid rgba(183,130,255,.08);
+  cursor:pointer;transition:padding-left .2s;
+}
+.action-item:last-child{border-bottom:none;}
+.action-item:hover{padding-left:4px;}
+.action-num{
+  font-size:10px;color:var(--violet);font-family:'Playfair Display',serif;
+  font-style:italic;min-width:20px;margin-top:2px;
+}
+.action-text{font-size:12px;line-height:1.65;color:var(--text-soft);}
+.action-text-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:13px;line-height:1.85;}
+
+/* WISDOM ACCORDION */
+.wa{margin-bottom:7px;}
+.wa-trigger{
+  width:100%;display:flex;align-items:center;gap:12px;
+  padding:14px 16px;background:var(--card);
+  border:1px solid var(--border);border-radius:12px;
+  cursor:pointer;transition:border-color .2s,background .2s;text-align:left;
+}
+.wa-trigger:hover{border-color:var(--border-hover);background:rgba(183,130,255,.07);}
+.wa-trigger.open{border-color:var(--border-hover);background:rgba(183,130,255,.08);border-radius:12px 12px 0 0;}
+.wa-glyph{font-size:20px;flex-shrink:0;}
+.wa-system{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.wa-system-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:10px;letter-spacing:0;text-transform:none;}
+.wa-headline{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:#e0c8ff;}
+.wa-headline-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:14px;}
+.wa-arrow{margin-left:auto;font-size:14px;color:var(--violet);transition:transform .25s;flex-shrink:0;}
+.wa-trigger.open .wa-arrow{transform:rotate(180deg);}
+.wa-body{
+  background:rgba(183,130,255,.05);border:1px solid var(--border-hover);
+  border-top:none;border-radius:0 0 12px 12px;padding:14px 16px;display:none;
+}
+.wa-body.open{display:block;}
+.wa-body-text{font-size:12px;line-height:1.8;color:var(--text-soft);margin-bottom:10px;}
+.wa-body-text-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:13px;line-height:1.9;}
+.wa-deeper{font-size:11px;color:var(--text-dim);border-top:1px solid rgba(183,130,255,.15);padding-top:10px;margin-top:4px;line-height:1.7;}
+.wa-deeper-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:12px;line-height:1.85;}
+
+/* ARCHETYPE */
+.arch-card{
+  background:var(--card);border:1px solid rgba(255,150,220,.2);
+  border-radius:18px;padding:20px;margin-bottom:16px;
+}
+.arch-head{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:#ffb8e8;margin-bottom:8px;}
+.arch-head-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:17px;}
+.arch-body{font-size:12px;line-height:1.8;color:var(--text-soft);margin-bottom:12px;}
+.arch-body-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:13px;line-height:1.9;}
+.arch-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.arch-tag{
+  font-size:10px;padding:3px 11px;border:1px solid rgba(255,150,220,.3);
+  border-radius:20px;color:#ffb8e8;cursor:default;transition:background .2s;
+}
+.arch-tag:hover{background:rgba(255,150,220,.1);}
+
+/* TENSIONS */
+.tensions-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:16px;}
+.tension-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.tension-row:last-child{margin-bottom:0;}
+.t-label{font-size:10px;color:var(--text-dim);width:90px;line-height:1.3;flex-shrink:0;}
+.t-label.right{text-align:right;}
+.t-label-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:11px;width:100px;}
+.t-track{flex:1;height:3px;background:rgba(183,130,255,.1);border-radius:4px;overflow:hidden;}
+.t-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#7c3aed,#ec4899);}
+
+/* SHARE */
+.share-strip{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;}
+.share-btn{
+  padding:11px;background:var(--card);border:1px solid var(--border);
+  border-radius:11px;font-family:'Space Mono',monospace;font-size:10px;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--text-soft);
+  cursor:pointer;transition:border-color .2s,background .2s,transform .15s;
+}
+.share-btn:hover{border-color:var(--border-hover);background:rgba(183,130,255,.08);transform:translateY(-1px);}
+.share-btn-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:12px;letter-spacing:0;text-transform:none;}
+.toast{text-align:center;font-size:10px;color:var(--soft-violet);margin-top:8px;opacity:0;transition:opacity .3s;letter-spacing:.08em;}
+.toast.show{opacity:1;}
+
+/* WEEK RITUAL */
+.week-grid{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+.day-card{background:var(--card);border:1px solid rgba(183,130,255,.12);border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.day-card:hover{border-color:var(--border);}
+.day-card.expanded{border-color:var(--border-hover);}
+.day-header{display:flex;align-items:center;gap:12px;padding:13px 15px;}
+.day-num{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--soft-violet);min-width:30px;}
+.day-info{flex:1;}
+.day-name{font-size:11px;color:var(--text-soft);margin-bottom:2px;}
+.day-name-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:12px;}
+.day-phase-label{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);}
+.day-phase-label-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:10px;letter-spacing:0;text-transform:none;}
+.day-moon{font-size:18px;margin-left:auto;}
+.day-body{display:none;padding:0 15px 15px;border-top:1px solid rgba(183,130,255,.08);padding-top:11px;}
+.day-body.show{display:block;}
+.day-note{font-size:11px;line-height:1.75;color:var(--text-dim);margin-bottom:10px;font-style:italic;font-family:'Playfair Display',serif;}
+.day-note-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:12px;}
+.ritual-sec-label{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:9px 0 5px;}
+.ritual-sec-label-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:10px;letter-spacing:0;text-transform:none;}
+.ritual-item{display:flex;gap:8px;margin-bottom:4px;}
+.ritual-dot{width:3px;height:3px;border-radius:50%;background:var(--violet);margin-top:7px;flex-shrink:0;}
+.ritual-text{font-size:11px;line-height:1.65;color:var(--text-soft);}
+.ritual-text-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:12px;line-height:1.8;}
+
+/* SHARE CARD */
+.card-wrap{
+  margin-top:18px;background:var(--card);
+  border:1px solid var(--border);border-radius:18px;padding:14px;
+}
+.card-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+.share-card{width:100%;border-radius:16px;overflow:hidden;position:relative;min-height:320px;font-family:'Playfair Display',serif;}
+.sc-bg{position:absolute;inset:0;}
+.sc-content{position:relative;z-index:1;padding:26px 22px;min-height:320px;display:flex;flex-direction:column;}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:auto;}
+.sc-brand{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.sc-day{font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.45);}
+.sc-moon{font-size:42px;display:block;margin:14px 0 10px;}
+.sc-phase{font-size:20px;font-style:italic;color:#fff;margin-bottom:4px;line-height:1.2;}
+.sc-phase-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:18px;}
+.sc-sub{font-size:9px;letter-spacing:.08em;font-family:'Space Mono',monospace;color:rgba(255,255,255,.5);margin-bottom:13px;}
+.sc-essence{font-size:12px;font-style:italic;line-height:1.7;color:rgba(255,255,255,.82);margin-bottom:16px;}
+.sc-essence-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;font-size:13px;line-height:1.85;}
+.sc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:13px;}
+.sc-tag{font-family:'Space Mono',monospace;font-size:7px;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.12);}
+.sc-action{font-size:11px;font-style:italic;color:rgba(255,255,255,.72);margin-bottom:3px;display:flex;gap:7px;}
+.sc-dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.4);margin-top:7px;flex-shrink:0;}
+.sc-bottom{margin-top:auto;padding-top:13px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:flex-end;}
+.sc-arch{font-size:10px;font-style:italic;color:rgba(255,255,255,.55);}
+.sc-arch-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;}
+.sc-handle{font-family:'Space Mono',monospace;font-size:8px;color:rgba(255,255,255,.35);letter-spacing:.06em;}
+
+.hidden{display:none;}
+.show-block{display:block;}
+
+/* SANDHI / MATRESCENCE placeholder */
+.coming-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:32px 24px;text-align:center;margin-top:20px;
+}
+.coming-glyph{font-size:44px;margin-bottom:14px;display:block;}
+.coming-title{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:#e0c8ff;margin-bottom:8px;}
+.coming-title-mr{font-family:'Tiro Devanagari Hindi',serif;font-style:normal;}
+.coming-body{font-size:12px;line-height:1.8;color:var(--text-soft);max-width:400px;margin:0 auto 16px;}
+.coming-body-mr{font-family:'Tiro Devanagari Hindi',serif;font-size:13px;line-height:1.9;}
+.coming-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.coming-tag{font-size:10px;padding:4px 13px;border:1px solid var(--border);border-radius:20px;color:var(--text-dim);}
+
+@media(max-width:480px){
+  .ic-grid{grid-template-columns:1fr;}
+  .orbit-grid{grid-template-columns:1fr 1fr;}
+  .share-strip{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div class="scanline"></div>
+
+<div id="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="app-wordmark">KALA</div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
+      <button class="lang-btn lang-mr" onclick="setLang('mr')" id="btn-mr">मराठी</button>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <button class="nav-tab active" onclick="showTab('ritu')" id="tab-ritu">
+      <span class="en-text">Ritu — Cycle</span>
+      <span class="mr-text nav-mr hidden">ऋतू — पाळी</span>
+    </button>
+    <button class="nav-tab" onclick="showTab('share')" id="tab-share">
+      <span class="en-text">Share Card</span>
+      <span class="mr-text nav-mr hidden">शेअर कार्ड</span>
+    </button>
+    <button class="nav-tab" onclick="showTab('week')" id="tab-week">
+      <span class="en-text">Week Ritual</span>
+      <span class="mr-text nav-mr hidden">साप्ताहिक विधी</span>
+    </button>
+    <button class="nav-tab" onclick="showTab('sandhi')" id="tab-sandhi">
+      <span class="en-text">Sandhi — Menopause</span>
+      <span class="mr-text nav-mr hidden">संधी — रजोनिवृत्ती</span>
+    </button>
+    <button class="nav-tab" onclick="showTab('matrescence')" id="tab-mat">
+      <span class="en-text">Matrescence</span>
+      <span class="mr-text nav-mr hidden">मातृत्व-जन्म</span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════════════ RITU PANEL -->
+  <div class="panel active" id="panel-ritu">
+    <div class="hero">
+      <svg class="hero-moon" width="72" height="72" viewBox="0 0 72 72" fill="none">
+        <circle cx="36" cy="36" r="28" fill="url(#mg)"/>
+        <circle cx="48" cy="24" r="20" fill="#0a0612"/>
+        <circle cx="24" cy="50" r="3.5" fill="rgba(183,130,255,0.3)"/>
+        <circle cx="34" cy="44" r="2" fill="rgba(183,130,255,0.2)"/>
+        <circle cx="20" cy="35" r="2.5" fill="rgba(183,130,255,0.22)"/>
+        <defs>
+          <linearGradient id="mg" x1="0" y1="0" x2="72" y2="72">
+            <stop offset="0%" stop-color="#e8c5ff"/>
+            <stop offset="100%" stop-color="#b98fff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="hero-title en-text">The Living Oracle</div>
+      <div class="hero-title hero-title-mr mr-text hidden">जीवंत दैवी संदेश</div>
+      <div class="hero-sub en-text">cycle · cosmos · ancient wisdom</div>
+      <div class="hero-sub hero-sub-mr mr-text hidden">पाळी · विश्व · प्राचीन ज्ञान</div>
+    </div>
+
+    <div class="input-card">
+      <div class="ic-grid">
+        <div>
+          <span class="ic-label en-text">last period started</span>
+          <span class="ic-label ic-label-mr mr-text hidden">शेवटची पाळी कधी आली</span>
+          <input type="date" id="r-start" class="ic-input"/>
+        </div>
+        <div>
+          <span class="ic-label en-text">cycle length (days)</span>
+          <span class="ic-label ic-label-mr mr-text hidden">पाळीचे दिवस</span>
+          <input type="number" id="r-len" class="ic-input" value="28" min="21" max="35"/>
+        </div>
+      </div>
+      <button class="gen-btn" onclick="genRitu()">
+        <span class="en-text">read today's field</span>
+        <span class="gen-btn-mr mr-text hidden">आजचे दैवी संदेश वाचा</span>
+      </button>
+    </div>
+
+    <div id="ritu-output" class="hidden">
+      <div class="phase-hero" id="r-phasehero">
+        <div class="phase-bg" id="r-phasebg"></div>
+        <div class="phase-content">
+          <span class="phase-glyph" id="r-glyph"></span>
+          <div class="phase-tag en-text" id="r-tag"></div>
+          <div class="phase-tag phase-tag-mr mr-text hidden" id="r-tag-mr"></div>
+          <div class="phase-name en-text" id="r-name"></div>
+          <div class="phase-name phase-name-mr mr-text hidden" id="r-name-mr"></div>
+          <div class="lunar-track" id="r-lunar"></div>
+          <div class="phase-essence en-text" id="r-essence"></div>
+          <div class="phase-essence phase-essence-mr mr-text hidden" id="r-essence-mr"></div>
+        </div>
+      </div>
+
+      <div class="orbit-grid" id="r-orbits"></div>
+
+      <div class="sec-hed">
+        <span class="en-text">how to move today</span>
+        <span class="mr-text hidden sec-hed-mr">आज कसे वागायचे</span>
+      </div>
+      <div class="actions-card" id="r-actions"></div>
+
+      <div class="sec-hed">
+        <span class="en-text">wisdom systems</span>
+        <span class="mr-text hidden sec-hed-mr">ज्ञान परंपरा</span>
+      </div>
+      <div id="r-wisdom"></div>
+
+      <div class="sec-hed">
+        <span class="en-text">archetypes active</span>
+        <span class="mr-text hidden sec-hed-mr">सक्रिय देवी रूप</span>
+      </div>
+      <div class="arch-card" id="r-arch"></div>
+
+      <div class="sec-hed">
+        <span class="en-text">tensions to hold</span>
+        <span class="mr-text hidden sec-hed-mr">आतील द्वंद्व</span>
+      </div>
+      <div class="tensions-card" id="r-tensions"></div>
+
+      <div class="share-strip">
+        <button class="share-btn" onclick="copyRituReading()">
+          <span class="en-text">copy reading</span>
+          <span class="mr-text hidden share-btn-mr">वाचन कॉपी करा</span>
+        </button>
+        <button class="share-btn" onclick="copyRituCaption()">
+          <span class="en-text">copy caption</span>
+          <span class="mr-text hidden share-btn-mr">कॅप्शन कॉपी करा</span>
+        </button>
+      </div>
+      <div class="toast" id="ritu-toast"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ SHARE CARD PANEL -->
+  <div class="panel" id="panel-share">
+    <div class="input-card" style="margin-top:20px;">
+      <div class="ic-grid">
+        <div>
+          <span class="ic-label en-text">last period started</span>
+          <span class="ic-label ic-label-mr mr-text hidden">शेवटची पाळी</span>
+          <input type="date" id="s-start" class="ic-input"/>
+        </div>
+        <div>
+          <span class="ic-label en-text">cycle length</span>
+          <span class="ic-label ic-label-mr mr-text hidden">पाळीचे दिवस</span>
+          <input type="number" id="s-len" class="ic-input" value="28" min="21" max="35"/>
+        </div>
+      </div>
+      <input id="s-handle" class="ic-input" placeholder="@yourhandle (optional)" style="margin-bottom:10px;"/>
+      <button class="gen-btn" onclick="genCard()">
+        <span class="en-text">generate my card</span>
+        <span class="gen-btn-mr mr-text hidden">माझे कार्ड बनवा</span>
+      </button>
+    </div>
+
+    <div class="card-wrap hidden" id="cardWrap">
+      <div class="card-label en-text">screenshot this card to share</div>
+      <div class="card-label mr-text hidden" style="font-family:'Tiro Devanagari Hindi',serif;font-size:11px;">हे कार्ड स्क्रीनशॉट घ्या आणि शेअर करा</div>
+      <div class="share-card" id="shareCard">
+        <div class="sc-bg" id="sc-bg"></div>
+        <div class="sc-content">
+          <div class="sc-top">
+            <div class="sc-brand">KALA · The Living Oracle</div>
+            <div class="sc-day" id="sc-day"></div>
+          </div>
+          <span class="sc-moon" id="sc-moon"></span>
+          <div class="sc-phase en-text" id="sc-phase"></div>
+          <div class="sc-phase sc-phase-mr mr-text hidden" id="sc-phase-mr"></div>
+          <div class="sc-sub" id="sc-sub"></div>
+          <div class="sc-essence en-text" id="sc-essence"></div>
+          <div class="sc-essence sc-essence-mr mr-text hidden" id="sc-essence-mr"></div>
+          <div class="sc-tags" id="sc-tags"></div>
+          <div id="sc-actions"></div>
+          <div class="sc-bottom">
+            <div class="sc-arch en-text" id="sc-arch"></div>
+            <div class="sc-arch sc-arch-mr mr-text hidden" id="sc-arch-mr"></div>
+            <div class="sc-handle" id="sc-handle"></div>
+          </div>
+        </div>
+      </div>
+      <div class="share-strip" style="margin-top:10px;">
+        <button class="share-btn" onclick="copyCardText()">
+          <span class="en-text">copy card text</span>
+          <span class="mr-text hidden share-btn-mr">कार्ड मजकूर कॉपी</span>
+        </button>
+        <button class="share-btn" onclick="copyCardCaption()">
+          <span class="en-text">copy caption</span>
+          <span class="mr-text hidden share-btn-mr">कॅप्शन कॉपी</span>
+        </button>
+      </div>
+      <div class="toast" id="card-toast"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ WEEK RITUAL PANEL -->
+  <div class="panel" id="panel-week">
+    <div class="input-card" style="margin-top:20px;">
+      <div class="ic-grid">
+        <div>
+          <span class="ic-label en-text">last period started</span>
+          <span class="ic-label ic-label-mr mr-text hidden">शेवटची पाळी</span>
+          <input type="date" id="w-start" class="ic-input"/>
+        </div>
+        <div>
+          <span class="ic-label en-text">cycle length</span>
+          <span class="ic-label ic-label-mr mr-text hidden">पाळीचे दिवस</span>
+          <input type="number" id="w-len" class="ic-input" value="28" min="21" max="35"/>
+        </div>
+      </div>
+      <button class="gen-btn" onclick="genWeek()">
+        <span class="en-text">build my week ritual</span>
+        <span class="gen-btn-mr mr-text hidden">माझा साप्ताहिक विधी बनवा</span>
+      </button>
+    </div>
+    <div class="week-grid hidden" id="weekGrid"></div>
+    <div class="toast" id="week-toast"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ SANDHI PANEL -->
+  <div class="panel" id="panel-sandhi">
+    <div class="coming-card">
+      <span class="coming-glyph">🌓</span>
+      <div class="coming-title en-text">Sandhi — The Great Threshold</div>
+      <div class="coming-title coming-title-mr mr-text hidden">संधी — महान उंबरठा</div>
+      <div class="coming-body en-text">
+        Perimenopause, menopause, post-menopause. The most underserved chapter of a woman's life — and the most powerful. Ayurveda calls it the Vata years. Jung called it the second individuation. Indigenous traditions called her the Wise Elder. This portal is for your Maushi, your Aai, and every woman the wellness industry forgot to speak to directly. Coming soon — written with them in mind.
+      </div>
+      <div class="coming-body coming-body-mr mr-text hidden">
+        रजोनिवृत्तीपूर्व, रजोनिवृत्ती, रजोनिवृत्तीनंतरचा काळ. स्त्रीच्या आयुष्यातील सर्वात दुर्लक्षित आणि सर्वात शक्तिशाली अध्याय. आयुर्वेद याला वात वर्षे म्हणतो. युंगने याला दुसरी वैयक्तिकता म्हटले. आपल्या मावशींसाठी, आईसाठी आणि प्रत्येक स्त्रीसाठी जिला wellness industry विसरून गेली. लवकरच येत आहे.
+      </div>
+      <div class="coming-tags">
+        <span class="coming-tag en-text">Hormonal map</span>
+        <span class="coming-tag en-text">Ayurvedic protocols</span>
+        <span class="coming-tag en-text">Jungian second adulthood</span>
+        <span class="coming-tag en-text">Daily oracle</span>
+        <span class="coming-tag en-text">Ritual planner</span>
+        <span class="coming-tag mr-text hidden" style="font-family:'Tiro Devanagari Hindi',serif;">हार्मोन नकाशा</span>
+        <span class="coming-tag mr-text hidden" style="font-family:'Tiro Devanagari Hindi',serif;">आयुर्वेद उपचार</span>
+        <span class="coming-tag mr-text hidden" style="font-family:'Tiro Devanagari Hindi',serif;">दैनंदिन दैवी संदेश</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ MATRESCENCE PANEL -->
+  <div class="panel" id="panel-matrescence">
+    <div class="coming-card">
+      <span class="coming-glyph">🌱</span>
+      <div class="coming-title en-text">Matrescence — The Becoming</div>
+      <div class="coming-title coming-title-mr mr-text hidden">मातृत्व-जन्म — नवी स्त्री</div>
+      <div class="coming-body en-text">
+        The word for what happens to a woman when she becomes a mother. You are neurologically rewired. Your identity fractures and reforms. Your old self grieves while the new one is still arriving. Nobody names this. Nobody maps it. Matrescence does — with Jungian psychology, Ayurvedic postpartum protocols, the 4th trimester, and the long slow return to self. For new mothers, for mothers of toddlers, for anyone still becoming. Coming soon.
+      </div>
+      <div class="coming-body coming-body-mr mr-text hidden">
+        आई होण्याची प्रक्रिया. तुमचा मेंदू पुन्हा तयार होतो. तुमची ओळख बदलते. जुनी तुम्ही दुःख करते तर नवी तुम्ही अजून येत आहे. कोणीही याला नाव देत नाही. आम्ही देतो — युंग मानसशास्त्र, आयुर्वेदिक प्रसूतीनंतरचे उपचार, आणि स्वतःकडे परत येण्याचा मार्ग. नवीन आईसाठी, सर्व आईसाठी. लवकरच येत आहे.
+      </div>
+      <div class="coming-tags">
+        <span class="coming-tag en-text">4th trimester</span>
+        <span class="coming-tag en-text">Identity mapping</span>
+        <span class="coming-tag en-text">Ayurvedic postpartum</span>
+        <span class="coming-tag en-text">The grief nobody names</span>
+        <span class="coming-tag en-text">Daily anchor rituals</span>
+        <span class="coming-tag mr-text hidden" style="font-family:'Tiro Devanagari Hindi',serif;">चौथा त्रैमासिक</span>
+        <span class="coming-tag mr-text hidden" style="font-family:'Tiro Devanagari Hindi',serif;">आयुर्वेद सुतिका</span>
+        <span class="coming-tag mr-text hidden" style="font-family:'Tiro Devanagari Hindi',serif;">दैनंदिन आधार विधी</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<script src="kala-data.js"></script>
+<script src="kala-app.js"></script>
+</body>
+</html>
