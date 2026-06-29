@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>For Aai — Daily Back Care</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+
+@media print {
+  body{margin:0;padding:0;}
+  .no-print{display:none;}
+  .page{page-break-after:always;box-shadow:none!important;border:none!important;}
+}
+
+body{
+  background:#e8e0d4;
+  font-family:'Noto Sans Devanagari',sans-serif;
+  display:flex;flex-direction:column;align-items:center;
+  padding:20px;gap:20px;
+}
+
+.page{
+  width:210mm;min-height:297mm;
+  background:#fdf6ed;
+  padding:18mm 16mm;
+  position:relative;
+  box-shadow:0 4px 24px rgba(0,0,0,0.15);
+  overflow:hidden;
+}
+
+/* BOTANICAL CORNER DECORATIONS */
+.page::before{
+  content:'';
+  position:absolute;top:0;right:0;
+  width:80px;height:80px;
+  background:radial-gradient(circle at top right, #c4956a22 0%, transparent 70%);
+}
+
+.sprig{position:absolute;opacity:0.12;font-size:80px;line-height:1;}
+.sprig-tl{top:8px;left:10px;transform:rotate(-20deg);}
+.sprig-br{bottom:8px;right:10px;transform:rotate(160deg);}
+
+/* HEADER */
+.header{
+  text-align:center;
+  border-bottom:2px solid #c4956a;
+  padding-bottom:12px;
+  margin-bottom:16px;
+}
+
+.from-line{
+  font-size:11px;letter-spacing:0.15em;text-transform:uppercase;
+  color:#9b7040;margin-bottom:4px;
+  font-family:'Playfair Display',serif;font-style:italic;
+}
+
+.main-title{
+  font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:700;color:#5c2d0a;
+  line-height:1.1;margin-bottom:4px;
+}
+
+.mr-title{
+  font-size:22px;font-weight:600;color:#7a3d12;
+  line-height:1.2;margin-bottom:6px;
+}
+
+.subtitle{
+  font-size:12px;color:#9b7040;
+  font-family:'Playfair Display',serif;font-style:italic;
+}
+
+/* SECTION */
+.section{margin-bottom:14px;}
+
+.sec-head{
+  display:flex;align-items:center;gap:8px;
+  background:#7a3d12;color:#fff;
+  padding:6px 12px;border-radius:6px;
+  margin-bottom:8px;
+}
+
+.sec-icon{font-size:16px;}
+
+.sec-title-en{
+  font-family:'Playfair Display',serif;
+  font-size:13px;font-style:italic;flex:1;
+}
+
+.sec-title-mr{font-size:13px;font-weight:600;color:#fde0c0;}
+
+/* GRID */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+
+/* ITEM */
+.item{
+  background:#fff8f0;border:1px solid #e8c8a0;
+  border-radius:8px;padding:10px;
+}
+
+.item-num{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:18px;color:#c4956a;font-weight:700;
+  display:block;margin-bottom:2px;
+}
+
+.item-en{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:11px;color:#5c2d0a;line-height:1.4;margin-bottom:3px;font-weight:700;
+}
+
+.item-mr{font-size:11px;color:#7a3d12;line-height:1.5;}
+
+/* DO DONT */
+.do-box{background:#eef7f0;border:1px solid #7ab88a;border-radius:8px;padding:10px;}
+.dont-box{background:#fdf0f0;border:1px solid #d4a0a0;border-radius:8px;padding:10px;}
+.box-head-en{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;font-weight:700;margin-bottom:6px;}
+.box-head-mr{font-size:11px;font-weight:600;margin-bottom:4px;}
+.do-box .box-head-en,.do-box .box-head-mr{color:#2d6b3d;}
+.dont-box .box-head-en,.dont-box .box-head-mr{color:#8b2020;}
+.dot-list{list-style:none;padding:0;}
+.dot-list li{font-size:10.5px;color:#4a3020;padding:2px 0;line-height:1.4;display:flex;gap:5px;}
+.dot-list li::before{content:"•";flex-shrink:0;margin-top:1px;}
+.do-box .dot-list li::before{color:#2d6b3d;}
+.dont-box .dot-list li::before{color:#8b2020;}
+.mr-li{display:block;font-size:10px;color:#7a5030;margin-left:10px;line-height:1.4;}
+
+/* TIME PILLS */
+.time-strip{display:flex;gap:6px;margin-bottom:10px;}
+.time-pill{
+  flex:1;border-radius:8px;padding:8px 6px;text-align:center;
+  border:1px solid #e8c8a0;
+}
+.tp-morning{background:#fff9e8;}
+.tp-day{background:#f0f8f0;}
+.tp-night{background:#f0eff8;}
+.tp-time-en{font-family:'Playfair Display',serif;font-style:italic;font-size:10px;color:#9b7040;display:block;margin-bottom:2px;}
+.tp-time-mr{font-size:9px;color:#7a6040;display:block;margin-bottom:4px;}
+.tp-icon{font-size:18px;display:block;margin-bottom:4px;}
+.tp-item{font-size:9.5px;color:#4a3020;line-height:1.4;margin-bottom:2px;}
+.tp-item-mr{font-size:9px;color:#7a5030;line-height:1.4;}
+
+/* HIGHLIGHT */
+.highlight-box{
+  background:linear-gradient(135deg,#fde8c8,#fad4a0);
+  border:1.5px solid #c4956a;border-radius:10px;
+  padding:10px 14px;margin-bottom:12px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.hl-icon{font-size:24px;flex-shrink:0;}
+.hl-en{font-family:'Playfair Display',serif;font-style:italic;font-size:11.5px;color:#5c2d0a;line-height:1.5;margin-bottom:3px;}
+.hl-mr{font-size:11px;color:#7a3d12;line-height:1.55;}
+
+/* CLINIC BOX */
+.clinic-strip{
+  background:#f0f4ff;border:1px solid #a0b0e0;
+  border-radius:8px;padding:10px 12px;
+  display:flex;gap:12px;flex-wrap:wrap;
+}
+.clinic-item{flex:1;min-width:120px;}
+.clinic-name{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:#1a3060;margin-bottom:1px;}
+.clinic-phone{font-size:12px;font-weight:700;color:#c4421a;margin-bottom:1px;}
+.clinic-note{font-size:9px;color:#4a5070;line-height:1.3;}
+.clinic-note-mr{font-size:9px;color:#4a5070;line-height:1.3;}
+
+/* FOOTER */
+.footer{
+  margin-top:14px;padding-top:10px;
+  border-top:1px solid #e8c8a0;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+.footer-love{font-family:'Playfair Display',serif;font-style:italic;font-size:11px;color:#9b7040;}
+.footer-love-mr{font-size:10px;color:#9b7040;margin-top:2px;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:14px;color:#c4956a;font-weight:700;}
+
+/* PRINT BUTTON */
+.no-print{
+  background:#5c2d0a;color:#fff;border:none;
+  padding:12px 28px;border-radius:8px;cursor:pointer;
+  font-size:14px;font-family:'Playfair Display',serif;
+  font-style:italic;letter-spacing:0.05em;
+  margin-bottom:8px;
+}
+.no-print:hover{background:#7a3d12;}
+</style>
+</head>
+<body>
+
+<div class="no-print" style="text-align:center;">
+  <button class="no-print" onclick="window.print()">Print this sheet</button>
+  <p style="font-size:12px;color:#666;margin-top:6px;">Set paper size to A4. Enable background graphics in print settings.</p>
+</div>
+
+<!-- PAGE 1: BACK PAIN -->
+<div class="page">
+  <div class="sprig sprig-tl">🌿</div>
+  <div class="sprig sprig-br">🌿</div>
+
+  <div class="header">
+    <div class="from-line">with love, from Shama — KALA Care</div>
+    <div class="main-title">Daily Back Care Guide</div>
+    <div class="mr-title">पाठदुखीसाठी दैनंदिन मार्गदर्शन</div>
+    <div class="subtitle">For back pain · sciatica · fascia — पाठदुखी · सायटिका · फासिया</div>
+  </div>
+
+  <!-- IMPORTANT NOTE -->
+  <div class="highlight-box">
+    <div class="hl-icon">⚠️</div>
+    <div>
+      <div class="hl-en">Continue your physiotherapy. These are gentle home habits to support your treatment — not a replacement for your doctor.</div>
+      <div class="hl-mr">तुमची फिजिओथेरपी सुरू ठेवा. हे घरगुती सवयी तुमच्या उपचाराला आधार देण्यासाठी आहेत — डॉक्टरांची जागा नाही.</div>
+    </div>
+  </div>
+
+  <!-- MORNING ROUTINE -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🌅</span>
+      <span class="sec-title-en">Morning — how to get out of bed safely</span>
+      <span class="sec-title-mr">सकाळ — पलंगावरून सुरक्षितपणे कसे उठायचे</span>
+    </div>
+
+    <div class="highlight-box" style="margin-bottom:8px;">
+      <div class="hl-icon">🛏️</div>
+      <div>
+        <div class="hl-en">Never sit straight up from lying down — this strains the lower disc. Roll to your side first, then use your arms to push up.</div>
+        <div class="hl-mr">कधीही झोपल्यापासून सरळ उठू नका — यामुळे खालच्या डिस्कवर ताण येतो. आधी कुशीवर वळा, मग हातांनी उठा.</div>
+      </div>
+    </div>
+
+    <div class="time-strip">
+      <div class="time-pill tp-morning">
+        <span class="tp-time-en">Before getting up</span>
+        <span class="tp-time-mr">उठण्यापूर्वी</span>
+        <span class="tp-icon">🙏</span>
+        <div class="tp-item">Knee-to-chest stretch while lying — pull one knee to chest, hold 20 sec, switch</div>
+        <div class="tp-item-mr">गुडघा छातीकडे ओढा — २० सेकंद धरा, बाजू बदला</div>
+      </div>
+      <div class="time-pill tp-morning">
+        <span class="tp-time-en">After bath</span>
+        <span class="tp-time-mr">आंघोळीनंतर</span>
+        <span class="tp-icon">🌿</span>
+        <div class="tp-item">Warm sesame oil on lower back — leave 15 min before bath</div>
+        <div class="tp-item-mr">पाठीवर गरम तिळाचे तेल — आंघोळीपूर्वी १५ मिनिटे ठेवा</div>
+      </div>
+      <div class="time-pill tp-morning">
+        <span class="tp-time-en">Breakfast</span>
+        <span class="tp-time-mr">नाश्ता</span>
+        <span class="tp-icon">☀️</span>
+        <div class="tp-item">Warm water with lemon first. 5 soaked almonds. Warm cooked food.</div>
+        <div class="tp-item-mr">आधी लिंबू पाणी. ५ भिजवलेले बदाम. गरम शिजवलेले अन्न.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 EXERCISES -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🧘</span>
+      <span class="sec-title-en">5 safe exercises — do these daily</span>
+      <span class="sec-title-mr">५ सुरक्षित व्यायाम — दररोज करा</span>
+    </div>
+
+    <div class="two-col" style="gap:8px;">
+      <div class="item">
+        <span class="item-num">01</span>
+        <div class="item-en">Knee to chest</div>
+        <div class="item-mr">गुडघा छातीकडे — पाठीवर झोपा, एक गुडघा छातीकडे ओढा, २० सेकंद, प्रत्येक बाजूने ५ वेळा</div>
+      </div>
+      <div class="item">
+        <span class="item-num">02</span>
+        <div class="item-en">Pelvic tilt</div>
+        <div class="item-mr">श्रोणि झुकाव — पाठीवर झोपा, गुडघे वाकवा, पोट घट्ट करा, ५ सेकंद धरा, १० वेळा</div>
+      </div>
+      <div class="item">
+        <span class="item-num">03</span>
+        <div class="item-en">Cat-cow (Marjaryasana)</div>
+        <div class="item-mr">मार्जरी आसन — हात-गुडघ्यांवर, पाठ वर-खाली, श्वासासह, १० वेळा</div>
+      </div>
+      <div class="item">
+        <span class="item-num">04</span>
+        <div class="item-en">Piriformis stretch</div>
+        <div class="item-mr">नितंब ताण — पाठीवर झोपा, घोटा गुडघ्यावर ठेवा (४ आकार), मांडी छातीकडे ओढा, ३० सेकंद</div>
+      </div>
+    </div>
+    <div class="item" style="margin-top:8px;background:#eef7f0;border-color:#7ab88a;">
+      <span class="item-num" style="color:#2d6b3d;">05</span>
+      <div class="item-en" style="color:#1a4020;">Walk 10 minutes — most important. After every hour of sitting, walk 5 minutes.</div>
+      <div class="item-mr" style="color:#2d6b3d;">१० मिनिटे चाला — सर्वात महत्त्वाचे. दर एक तास बसल्यानंतर ५ मिनिटे चाला.</div>
+    </div>
+  </div>
+
+  <!-- DO DONT -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">✓</span>
+      <span class="sec-title-en">Do this. Avoid that.</span>
+      <span class="sec-title-mr">हे करा. हे टाळा.</span>
+    </div>
+    <div class="two-col">
+      <div class="do-box">
+        <div class="box-head-en">Do ✓</div>
+        <div class="box-head-mr">करा ✓</div>
+        <ul class="dot-list">
+          <li>Sleep on side, pillow between knees<span class="mr-li">कुशीवर झोपा, गुडघ्यांत उशी</span></li>
+          <li>Firm mattress or floor mat<span class="mr-li">कडक गादी किंवा जमिनीवर चटई</span></li>
+          <li>Hot water bag on back 15 min, twice daily<span class="mr-li">दिवसातून दोनदा १५ मिनिटे गरम पाण्याची पिशवी</span></li>
+          <li>Warm castor oil on back at night<span class="mr-li">रात्री पाठीवर गरम एरंडेल तेल</span></li>
+          <li>Sit on firm chair only<span class="mr-li">फक्त कडक खुर्चीवर बसा</span></li>
+          <li>Drink warm water all day<span class="mr-li">दिवसभर गरम पाणी प्या</span></li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <div class="box-head-en">Avoid ✗</div>
+        <div class="box-head-mr">टाळा ✗</div>
+        <ul class="dot-list">
+          <li>Sitting on floor for long<span class="mr-li">जास्त वेळ जमिनीवर बसणे</span></li>
+          <li>Bending forward to pick things up<span class="mr-li">गोष्टी उचलण्यासाठी पुढे वाकणे</span></li>
+          <li>Soft sofas or recliner chairs<span class="mr-li">मऊ सोफे किंवा रेक्लायनर</span></li>
+          <li>Lifting anything heavy<span class="mr-li">जड गोष्टी उचलणे</span></li>
+          <li>Staying still all day<span class="mr-li">दिवसभर स्थिर राहणे</span></li>
+          <li>Cold water or cold food<span class="mr-li">थंड पाणी किंवा थंड अन्न</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLINICS -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🏥</span>
+      <span class="sec-title-en">Pune clinics for physiotherapy</span>
+      <span class="sec-title-mr">पुण्यातील फिजिओथेरपी दवाखाने</span>
+    </div>
+    <div class="clinic-strip">
+      <div class="clinic-item">
+        <div class="clinic-name">ReLiva Physiotherapy</div>
+        <div class="clinic-phone">📞 9920991584</div>
+        <div class="clinic-note">11+ clinics in Pune · Shivajinagar, Baner, FC Road, Wakad · Home visits available</div>
+        <div class="clinic-note-mr">पुण्यात ११+ दवाखाने · घरी भेट उपलब्ध</div>
+      </div>
+      <div class="clinic-item">
+        <div class="clinic-name">QI Spine Clinic</div>
+        <div class="clinic-note">Spine specialist · Digital analysis · Non-surgical</div>
+        <div class="clinic-note-mr">मणका तज्ञ · शस्त्रक्रियाविरहित</div>
+        <div class="clinic-note">qispine.com</div>
+      </div>
+      <div class="clinic-item">
+        <div class="clinic-name">The Painex Clinic</div>
+        <div class="clinic-phone">📞 9067573355</div>
+        <div class="clinic-note">Sciatica specialist · PCMC & Pune</div>
+        <div class="clinic-note-mr">सायटिका तज्ञ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHEN TO CALL DOCTOR -->
+  <div class="highlight-box" style="background:linear-gradient(135deg,#fde8e8,#f8c8c8);border-color:#c45050;">
+    <div class="hl-icon">🚨</div>
+    <div>
+      <div class="hl-en" style="color:#6b0000;"><strong>Go to doctor immediately if:</strong> Pain shoots to foot and toes · Leg feels weak or numb · Any bladder/bowel issues · Sudden severe new pain</div>
+      <div class="hl-mr" style="color:#8b2020;">ताबडतोब डॉक्टरकडे जा: वेदना पायाच्या बोटांपर्यंत पसरते · पाय कमजोर किंवा बधिर · लघवी/संडास समस्या · अचानक तीव्र वेदना</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>
+      <div class="footer-love">Made with love by Shama 🌿</div>
+      <div class="footer-love-mr">शामाने प्रेमाने बनवले</div>
+    </div>
+    <div class="footer-brand">KALA Care</div>
+  </div>
+</div>
+
+<!-- PAGE 2: MENOPAUSE + DAILY ROUTINE (for Maushi) -->
+<div class="page">
+  <div class="sprig sprig-tl">🌸</div>
+  <div class="sprig sprig-br">🌸</div>
+
+  <div class="header">
+    <div class="from-line">with love, from Shama — KALA Care</div>
+    <div class="main-title">Menopause & Daily Wellness</div>
+    <div class="mr-title">रजोनिवृत्ती आणि दैनंदिन आरोग्य</div>
+    <div class="subtitle">Ayurvedic support for the transition — संक्रमणासाठी आयुर्वेदिक आधार</div>
+  </div>
+
+  <div class="highlight-box">
+    <div class="hl-icon">🌿</div>
+    <div>
+      <div class="hl-en">In Ayurveda, menopause is called Rajonivritti — not a disease, but a natural shift into the Vata phase of life. Wisdom, insight, and lightness. The discomfort comes when the transition is rough. These habits smooth it.</div>
+      <div class="hl-mr">आयुर्वेदात रजोनिवृत्तीला राजोनिवृत्ती म्हणतात — आजार नाही, जीवनाच्या वात अवस्थेत नैसर्गिक बदल. शहाणपण आणि हलकेपणा. या सवयी संक्रमण सुलभ करतात.</div>
+    </div>
+  </div>
+
+  <!-- SYMPTOMS -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">💫</span>
+      <span class="sec-title-en">What is happening & why</span>
+      <span class="sec-title-mr">काय होत आहे आणि का</span>
+    </div>
+    <div class="three-col">
+      <div class="item">
+        <div class="item-en">Hot flashes</div>
+        <div class="item-mr">गरम लाटा — पित्त वाढणे. थंड अन्न, नारळ पाणी मदत करते.</div>
+      </div>
+      <div class="item">
+        <div class="item-en">Joint & back pain</div>
+        <div class="item-mr">सांधेदुखी, पाठदुखी — वात वाढणे. तेल मालिश, गरम अन्न मदत करते.</div>
+      </div>
+      <div class="item">
+        <div class="item-en">Sleep problems</div>
+        <div class="item-mr">झोप कमी — वात अस्वस्थता. अश्वगंधा दूध रात्री मदत करते.</div>
+      </div>
+      <div class="item">
+        <div class="item-en">Mood swings</div>
+        <div class="item-mr">मनःस्थिती बदल — पित्त + वात. ब्राह्मी, शांत दिनक्रम मदत करतो.</div>
+      </div>
+      <div class="item">
+        <div class="item-en">Fatigue</div>
+        <div class="item-mr">थकवा — ओजस पुनर्वितरण. शतावरी, तूप, दुपारची विश्रांती मदत करते.</div>
+      </div>
+      <div class="item">
+        <div class="item-en">Brain fog</div>
+        <div class="item-mr">मेंदूचे धुके — ब्राह्मी तेल डोक्यावर, सकाळचे पाणी, चालणे मदत करते.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERBS -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🌱</span>
+      <span class="sec-title-en">Ayurvedic herbs that help — doctor se poochh ke lo</span>
+      <span class="sec-title-mr">मदत करणाऱ्या आयुर्वेदिक वनस्पती — डॉक्टरांना विचारूनच घ्या</span>
+    </div>
+    <div class="two-col">
+      <div class="do-box" style="background:#f0f8f0;">
+        <ul class="dot-list">
+          <li><strong>शतावरी (Shatavari)</strong> — इस्ट्रोजेन आधार, गरम लाटा, कोरडेपणा<span class="mr-li">Supports estrogen, relieves hot flashes & dryness</span></li>
+          <li><strong>अश्वगंधा (Ashwagandha)</strong> — झोप, चिंता, सांधेदुखी<span class="mr-li">Sleep, anxiety, joint pain — take with warm milk at night</span></li>
+          <li><strong>त्रिफळा (Triphala)</strong> — पचन, उत्सर्जन — झोपण्यापूर्वी<span class="mr-li">Digestion — 1 tsp warm water at bedtime</span></li>
+          <li><strong>ब्राह्मी (Brahmi)</strong> — मेंदू, स्मरणशक्ती, चिंता<span class="mr-li">Memory, brain fog, anxiety</span></li>
+        </ul>
+      </div>
+      <div class="do-box" style="background:#fefaf0;">
+        <ul class="dot-list">
+          <li><strong>हळद दूध</strong> — रोज रात्री झोपण्यापूर्वी<span class="mr-li">Turmeric milk — anti-inflammatory, helps sleep</span></li>
+          <li><strong>महानारायण तेल</strong> — सांधे + पाठ मालिश रात्री<span class="mr-li">Joint & back massage oil — warm slightly before use</span></li>
+          <li><strong>तिळाचे तेल</strong> — रोज सकाळी अभ्यंग<span class="mr-li">Sesame oil abhyanga — calms Vata, nourishes joints</span></li>
+          <li><strong>तूप</strong> — रोज एक चमचा — सांधे, पचन<span class="mr-li">1 tsp ghee daily — joints, digestion, Vata balance</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🍲</span>
+      <span class="sec-title-en">Eat more. Eat less.</span>
+      <span class="sec-title-mr">जास्त खा. कमी खा.</span>
+    </div>
+    <div class="two-col">
+      <div class="do-box">
+        <div class="box-head-en">Eat more of ✓</div>
+        <div class="box-head-mr">जास्त खा ✓</div>
+        <ul class="dot-list">
+          <li>Warm cooked dal, khichdi, sabzi<span class="mr-li">गरम डाळ, खिचडी, भाज्या</span></li>
+          <li>Ghee — 1 tsp daily<span class="mr-li">तूप — रोज एक चमचा</span></li>
+          <li>Sesame seeds (til) — calcium<span class="mr-li">तीळ — कॅल्शियम</span></li>
+          <li>Fenugreek seeds (methi)<span class="mr-li">मेथीदाणे — हार्मोन्ससाठी</span></li>
+          <li>Soaked almonds, flaxseeds<span class="mr-li">भिजवलेले बदाम, जवस</span></li>
+          <li>Fresh coconut, coconut water<span class="mr-li">ताजे खोबरे, नारळ पाणी</span></li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <div class="box-head-en">Reduce ✗</div>
+        <div class="box-head-mr">कमी करा ✗</div>
+        <ul class="dot-list">
+          <li>Chai/coffee after 2pm<span class="mr-li">दुपारी २ नंतर चहा/कॉफी</span></li>
+          <li>Spicy food — worsens hot flashes<span class="mr-li">तिखट — गरम लाटा वाढवते</span></li>
+          <li>Cold water and cold food<span class="mr-li">थंड पाणी आणि थंड अन्न</span></li>
+          <li>Excess sour — pickles, tamarind<span class="mr-li">अतिरिक्त आंबट — लोणचे, चिंच</span></li>
+          <li>Processed packaged foods<span class="mr-li">पॅकेजयुक्त अन्न</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY ROUTINE -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="sec-icon">🕐</span>
+      <span class="sec-title-en">Daily rhythm — morning to night</span>
+      <span class="sec-title-mr">दैनंदिन लय — सकाळपासून रात्रीपर्यंत</span>
+    </div>
+    <div class="time-strip">
+      <div class="time-pill tp-morning">
+        <span class="tp-icon">🌅</span>
+        <span class="tp-time-en">Morning</span>
+        <span class="tp-time-mr">सकाळ</span>
+        <div class="tp-item">Warm lemon water first</div>
+        <div class="tp-item-mr">आधी गरम लिंबू पाणी</div>
+        <div class="tp-item">Oil massage before bath</div>
+        <div class="tp-item-mr">आंघोळीपूर्वी तेल मालिश</div>
+        <div class="tp-item">5 soaked almonds</div>
+        <div class="tp-item-mr">५ भिजवलेले बदाम</div>
+        <div class="tp-item">10 min gentle walk</div>
+        <div class="tp-item-mr">१० मिनिटे हळुवार चालणे</div>
+      </div>
+      <div class="time-pill tp-day">
+        <span class="tp-icon">☀️</span>
+        <span class="tp-time-en">During the day</span>
+        <span class="tp-time-mr">दिवसभर</span>
+        <div class="tp-item">Warm water — 6-8 glasses</div>
+        <div class="tp-item-mr">गरम पाणी — ६-८ ग्लास</div>
+        <div class="tp-item">Stand up every hour</div>
+        <div class="tp-item-mr">दर तासाला उठा</div>
+        <div class="tp-item">Hot bag on back after lunch</div>
+        <div class="tp-item-mr">जेवणानंतर पाठीवर गरम पिशवी</div>
+        <div class="tp-item">20 min rest if needed</div>
+        <div class="tp-item-mr">आवश्यक असल्यास २० मिनिटे विश्रांती</div>
+      </div>
+      <div class="time-pill tp-night">
+        <span class="tp-icon">🌙</span>
+        <span class="tp-time-en">Evening & night</span>
+        <span class="tp-time-mr">संध्याकाळ व रात्र</span>
+        <div class="tp-item">Gentle walk before dinner</div>
+        <div class="tp-item-mr">जेवणापूर्वी हळुवार चालणे</div>
+        <div class="tp-item">Turmeric milk at bedtime</div>
+        <div class="tp-item-mr">झोपण्यापूर्वी हळद दूध</div>
+        <div class="tp-item">Oil on feet & back</div>
+        <div class="tp-item-mr">पाय आणि पाठीवर तेल</div>
+        <div class="tp-item">Phone away by 9pm</div>
+        <div class="tp-item-mr">रात्री ९ पर्यंत फोन दूर</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>
+      <div class="footer-love">Made with love by Shama 🌸</div>
+      <div class="footer-love-mr">शामाने प्रेमाने बनवले</div>
+    </div>
+    <div class="footer-brand">KALA Care</div>
+  </div>
+</div>
+
+</body>
+</html>
