@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>आईसाठी — KALA Care</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+
+@page{size:A4;margin:15mm 14mm;}
+
+@media print{
+  body{background:none;padding:0;}
+  .no-print{display:none!important;}
+  .page{box-shadow:none;page-break-after:always;margin:0;}
+}
+
+body{
+  background:#ddd5c8;
+  font-family:'Noto Sans Devanagari',sans-serif;
+  padding:24px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:24px;
+}
+
+.no-print{
+  background:#5c2d0a;color:#fff;border:none;
+  padding:12px 32px;border-radius:8px;cursor:pointer;
+  font-size:15px;font-family:'Noto Sans Devanagari',sans-serif;
+  margin-bottom:4px;letter-spacing:0.03em;
+}
+
+.page{
+  width:210mm;min-height:297mm;
+  background:#fef9f2;
+  padding:14mm 13mm;
+  box-shadow:0 6px 32px rgba(0,0,0,0.18);
+  position:relative;
+}
+
+/* corner sprigs */
+.c{position:absolute;font-size:64px;opacity:0.08;line-height:1;pointer-events:none;}
+.c-tl{top:6px;left:8px;transform:rotate(-15deg);}
+.c-br{bottom:6px;right:8px;transform:rotate(165deg);}
+
+/* from line */
+.from{
+  text-align:center;
+  font-family:'Noto Serif Devanagari',serif;
+  font-size:13px;color:#a0784a;
+  letter-spacing:0.04em;margin-bottom:6px;
+}
+
+/* big title */
+.title{
+  font-family:'Noto Serif Devanagari',serif;
+  font-size:30px;font-weight:700;
+  color:#3d1a04;text-align:center;
+  line-height:1.25;margin-bottom:4px;
+}
+
+.title-sub{
+  font-size:14px;color:#7a4a20;text-align:center;
+  margin-bottom:12px;line-height:1.5;
+}
+
+.divider{
+  border:none;border-top:2px solid #c4906a;
+  margin:0 0 14px;
+}
+
+/* section header */
+.sh{
+  display:flex;align-items:center;gap:8px;
+  background:#3d1a04;color:#fde8c8;
+  padding:7px 13px;border-radius:7px;
+  margin-bottom:10px;
+}
+.sh-icon{font-size:17px;flex-shrink:0;}
+.sh-text{
+  font-family:'Noto Serif Devanagari',serif;
+  font-size:16px;font-weight:600;
+}
+
+/* WARNING BOX */
+.warn{
+  background:#fff8e8;border:1.5px solid #d4a030;
+  border-radius:10px;padding:11px 14px;
+  margin-bottom:14px;display:flex;gap:10px;
+}
+.warn-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
+.warn-text{font-size:13.5px;color:#5a3800;line-height:1.7;}
+
+/* NUMBERED LIST */
+.num-list{list-style:none;margin-bottom:14px;}
+.num-list li{
+  display:flex;gap:12px;padding:9px 0;
+  border-bottom:1px solid #edd9bf;
+  align-items:flex-start;
+}
+.num-list li:last-child{border-bottom:none;}
+.num{
+  font-family:'Noto Serif Devanagari',serif;
+  font-size:22px;font-weight:700;color:#c4906a;
+  min-width:28px;line-height:1.1;
+}
+.num-body{}
+.num-title{
+  font-size:14.5px;font-weight:600;color:#3d1a04;
+  margin-bottom:3px;line-height:1.4;
+}
+.num-desc{font-size:13px;color:#6b4020;line-height:1.65;}
+.badge{
+  display:inline-block;font-size:11px;
+  background:#eef7f0;color:#2d6b3d;
+  border:1px solid #9ad4aa;border-radius:20px;
+  padding:1px 9px;margin-left:6px;vertical-align:middle;
+}
+
+/* TWO COL */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+
+/* DO DONT */
+.do-box,.dont-box{border-radius:10px;padding:12px;}
+.do-box{background:#eef8f0;border:1.5px solid #80c898;}
+.dont-box{background:#fdf0f0;border:1.5px solid #e09090;}
+.box-title{
+  font-size:15px;font-weight:700;
+  margin-bottom:8px;
+}
+.do-box .box-title{color:#1a5e30;}
+.dont-box .box-title{color:#8b1a1a;}
+.dot-list{list-style:none;}
+.dot-list li{
+  font-size:13px;color:#3d2010;
+  padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.07);
+  line-height:1.55;display:flex;gap:6px;
+}
+.dot-list li:last-child{border-bottom:none;}
+.dot-list li::before{flex-shrink:0;margin-top:2px;}
+.do-box .dot-list li::before{content:"✓";color:#1a5e30;font-weight:700;}
+.dont-box .dot-list li::before{content:"✗";color:#8b1a1a;font-weight:700;}
+
+/* TIME BLOCKS */
+.time-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+.tb{border-radius:10px;padding:11px 10px;}
+.tb-m{background:#fffbec;border:1px solid #e8cc80;}
+.tb-d{background:#f0f8f4;border:1px solid #88c8a8;}
+.tb-n{background:#f2f0f8;border:1px solid #a8a0d0;}
+.tb-icon{font-size:22px;display:block;margin-bottom:4px;}
+.tb-time{font-size:13px;font-weight:700;color:#3d1a04;margin-bottom:7px;display:block;}
+.tb-item{font-size:12.5px;color:#4a2810;line-height:1.55;padding:3px 0;border-bottom:1px solid rgba(0,0,0,0.06);}
+.tb-item:last-child{border-bottom:none;}
+
+/* HERB GRID */
+.herb-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.herb{background:#f4fbf0;border:1px solid #90cc90;border-radius:9px;padding:10px 12px;}
+.herb-name{font-size:15px;font-weight:700;color:#1a5030;margin-bottom:4px;}
+.herb-body{font-size:12.5px;color:#2d4020;line-height:1.6;}
+
+/* ALERT BOX */
+.alert{
+  background:#fdf0f0;border:2px solid #cc4040;
+  border-radius:10px;padding:11px 14px;
+  margin-bottom:14px;display:flex;gap:10px;
+}
+.alert-icon{font-size:22px;flex-shrink:0;}
+.alert-text{font-size:13px;color:#5a0000;line-height:1.7;font-weight:500;}
+
+/* CLINIC STRIP */
+.clinics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+.clinic{background:#f0f4ff;border:1px solid #a0b4e0;border-radius:9px;padding:10px;}
+.clinic-name{font-size:13px;font-weight:700;color:#1a2060;margin-bottom:3px;}
+.clinic-phone{font-size:14px;font-weight:700;color:#c04010;margin-bottom:3px;}
+.clinic-note{font-size:11.5px;color:#3a4060;line-height:1.4;}
+
+/* FOOTER */
+.footer{
+  border-top:1.5px solid #e0c090;
+  padding-top:10px;margin-top:12px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+.footer-left{font-size:12px;color:#9b7040;line-height:1.5;}
+.footer-brand{
+  font-family:'Noto Serif Devanagari',serif;
+  font-size:16px;font-weight:700;color:#c4906a;
+}
+</style>
+</head>
+<body>
+
+<div class="no-print" style="text-align:center;">
+  <button class="no-print" onclick="window.print()">प्रिंट करा</button>
+  <p style="font-size:12px;color:#555;margin-top:6px;">A4 कागदावर प्रिंट करा. Background graphics चालू ठेवा.</p>
+</div>
+
+<!-- ══════════════ PAGE 1 — BACK PAIN ══════════════ -->
+<div class="page">
+  <div class="c c-tl">🌿</div>
+  <div class="c c-br">🌿</div>
+
+  <div class="from">शामाने प्रेमाने बनवले — KALA Care</div>
+  <div class="title">पाठदुखी आणि सायटिका</div>
+  <div class="title-sub">रोजच्या सवयी ज्या खरोखर मदत करतात</div>
+  <hr class="divider"/>
+
+  <div class="warn">
+    <div class="warn-icon">📋</div>
+    <div class="warn-text">तुमची फिजिओथेरपी सुरूच ठेवा. हे व्यायाम आणि सवयी त्या उपचाराला आधार देण्यासाठी आहेत. काहीही नवीन करण्यापूर्वी डॉक्टरांना विचारा.</div>
+  </div>
+
+  <!-- GET OUT OF BED -->
+  <div class="sh"><span class="sh-icon">🛏️</span><span class="sh-text">पलंगावरून उठण्याची योग्य पद्धत</span></div>
+  <div class="warn" style="background:#fef5ff;border-color:#c090d0;margin-bottom:14px;">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-text" style="color:#4a1060;"><strong>कधीही झोपल्यापासून सरळ उठू नका</strong> — यामुळे पाठीच्या खालच्या डिस्कवर खूप ताण येतो. आधी कुशीवर वळा, मग हातांनी जमिनीवर आधार घेऊन हळूहळू उठा. हे रोज सकाळी करा.</div>
+  </div>
+
+  <!-- 5 EXERCISES -->
+  <div class="sh"><span class="sh-icon">🧘</span><span class="sh-text">५ सुरक्षित व्यायाम — रोज करा</span></div>
+  <ul class="num-list">
+    <li>
+      <span class="num">०१</span>
+      <div class="num-body">
+        <div class="num-title">गुडघा छातीकडे (Knee to Chest)</div>
+        <div class="num-desc">पाठीवर झोपा. एक गुडघा दोन्ही हातांनी हळूहळू छातीकडे ओढा. २० सेकंद तसेच धरा. सोडा. दुसरा पाय करा. प्रत्येक बाजूने ५ वेळा. सायटिक मज्जातंतूवरचा दाब कमी होतो.</div>
+      </div>
+    </li>
+    <li>
+      <span class="num">०२</span>
+      <div class="num-body">
+        <div class="num-title">श्रोणि झुकाव (Pelvic Tilt)</div>
+        <div class="num-desc">पाठीवर झोपा, गुडघे वाकवा, पाय जमिनीवर सपाट. पोटाचे स्नायू आतमध्ये घ्या आणि पाठीचा खालचा भाग जमिनीवर हळूच दाबा. ५ सेकंद धरा, सोडा. असे १० वेळा. पाठीला आधार देणारे स्नायू मजबूत होतात.</div>
+      </div>
+    </li>
+    <li>
+      <span class="num">०३</span>
+      <div class="num-body">
+        <div class="num-title">मार्जरी आसन (Cat-Cow)</div>
+        <div class="num-desc">हात आणि गुडघ्यांवर या. श्वास घेताना पाठ खाली सोडा, श्वास सोडताना पाठ वर वाकवा. हळूहळू, श्वासाबरोबर. १० वेळा. सकाळच्या कडकपणासाठी सर्वोत्तम.</div>
+      </div>
+    </li>
+    <li>
+      <span class="num">०४</span>
+      <div class="num-body">
+        <div class="num-title">नितंब ताण (Piriformis Stretch)</div>
+        <div class="num-desc">पाठीवर झोपा. उजवा घोटा डाव्या गुडघ्यावर ठेवा (४ आकार). आता डाव्या मांडीला दोन्ही हातांनी हळूहळू छातीकडे ओढा. उजव्या नितंबात ताण जाणवेल. ३० सेकंद धरा. बाजू बदला. पायाखाली पसरणाऱ्या सायटिकासाठी खूप उपयुक्त.</div>
+      </div>
+    </li>
+    <li>
+      <span class="num">०५</span>
+      <div class="num-body">
+        <div class="num-title">चालणे <span class="badge">सर्वात महत्त्वाचे</span></div>
+        <div class="num-desc">समतल जमिनीवर रोज किमान १० मिनिटे चाला. दर एक तास बसल्यानंतर ५ मिनिटे उठून फिरा — डिस्कला हायड्रेटेड राहण्यासाठी हालचाल आवश्यक आहे. हे एकच सवय सर्वात जास्त फरक करते.</div>
+      </div>
+    </li>
+  </ul>
+
+  <!-- DO DONT -->
+  <div class="sh"><span class="sh-icon">✓</span><span class="sh-text">काय करायचे. काय टाळायचे.</span></div>
+  <div class="two">
+    <div class="do-box">
+      <div class="box-title">करा</div>
+      <ul class="dot-list">
+        <li>कुशीवर झोपा, गुडघ्यांमध्ये उशी ठेवा</li>
+        <li>कडक गादी किंवा जमिनीवर चटई</li>
+        <li>दिवसातून दोनदा १५ मिनिटे पाठीवर गरम पाण्याची पिशवी</li>
+        <li>आंघोळीपूर्वी गरम तिळाचे तेल पाठीवर लावा</li>
+        <li>फक्त कडक खुर्चीवर बसा</li>
+        <li>दिवसभर गरम पाणी प्या — किमान ६ ग्लास</li>
+        <li>जड गोष्टी उचलताना आधी गुडघे वाकवा</li>
+      </ul>
+    </div>
+    <div class="dont-box">
+      <div class="box-title">टाळा</div>
+      <ul class="dot-list">
+        <li>जास्त वेळ जमिनीवर बसणे</li>
+        <li>गोष्टी उचलण्यासाठी कमरेतून पुढे वाकणे</li>
+        <li>मऊ सोफे — नितंब खाली जातात आणि मणका वाकतो</li>
+        <li>एक जागी दिवसभर बसून राहणे</li>
+        <li>थंड पाणी आणि थंड अन्न</li>
+        <li>असमान किंवा खड्ड्यांच्या जमिनीवर चालणे</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CLINICS -->
+  <div class="sh"><span class="sh-icon">🏥</span><span class="sh-text">पुण्यातील फिजिओथेरपी दवाखाने</span></div>
+  <div class="clinics">
+    <div class="clinic">
+      <div class="clinic-name">ReLiva Physiotherapy</div>
+      <div class="clinic-phone">📞 9920991584</div>
+      <div class="clinic-note">पुण्यात ११+ दवाखाने — शिवाजीनगर, बाणेर, FC रोड, वाकड. घरी भेट उपलब्ध.</div>
+    </div>
+    <div class="clinic">
+      <div class="clinic-name">QI Spine Clinic</div>
+      <div class="clinic-note">मणका तज्ञ. डिजिटल विश्लेषण. शस्त्रक्रियाविरहित उपचार.</div>
+      <div class="clinic-note" style="margin-top:4px;color:#1a3060;">qispine.com</div>
+    </div>
+    <div class="clinic">
+      <div class="clinic-name">The Painex Clinic</div>
+      <div class="clinic-phone">📞 9067573355</div>
+      <div class="clinic-note">सायटिका तज्ञ. पुणे आणि PCMC.</div>
+    </div>
+  </div>
+
+  <!-- EMERGENCY -->
+  <div class="alert">
+    <div class="alert-icon">🚨</div>
+    <div class="alert-text">ताबडतोब डॉक्टरकडे जा जर: वेदना पायाच्या बोटांपर्यंत पसरते · पाय अशक्त किंवा बधिर वाटतो · लघवी किंवा संडासावर नियंत्रण कमी होते · अचानक खूप तीव्र नवी वेदना येते</div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">शामाने प्रेमाने बनवले 🌿<br/>KALA Care · kala-care.vercel.app</div>
+    <div class="footer-brand">KALA</div>
+  </div>
+</div>
+
+<!-- ══════════════ PAGE 2 — MENOPAUSE + DAILY ══════════════ -->
+<div class="page">
+  <div class="c c-tl">🌸</div>
+  <div class="c c-br">🌸</div>
+
+  <div class="from">शामाने प्रेमाने बनवले — KALA Care</div>
+  <div class="title">रजोनिवृत्ती आणि दैनंदिन दिनक्रम</div>
+  <div class="title-sub">आयुर्वेदिक दृष्टिकोनातून — साध्या सवयी, खरी मदत</div>
+  <hr class="divider"/>
+
+  <div class="warn" style="background:#fef5ff;border-color:#c090d0;">
+    <div class="warn-icon">🌿</div>
+    <div class="warn-text" style="color:#4a1060;">आयुर्वेदात रजोनिवृत्तीला <strong>राजोनिवृत्ती</strong> म्हणतात — आजार नाही, जीवनाचा नैसर्गिक बदल. पित्त अवस्थेतून वात अवस्थेत जाणे. शहाणपण आणि हलकेपणाची वेळ. अस्वस्थता असते जेव्हा हे संक्रमण खडबडीत असते — या सवयी ते सुलभ करतात.</div>
+  </div>
+
+  <!-- SYMPTOMS -->
+  <div class="sh"><span class="sh-icon">💫</span><span class="sh-text">काय होते आणि का — सोप्या शब्दात</span></div>
+  <ul class="num-list" style="margin-bottom:14px;">
+    <li>
+      <span class="num" style="font-size:18px;">🔥</span>
+      <div class="num-body">
+        <div class="num-title">गरम लाटा (Hot Flashes)</div>
+        <div class="num-desc">पित्त वाढते — अग्नी अनियंत्रित होतो. थंड अन्न खा — नारळ पाणी, काकडी, पुदिना. तिखट, आंबट, आणि कॉफी कमी करा.</div>
+      </div>
+    </li>
+    <li>
+      <span class="num" style="font-size:18px;">🦴</span>
+      <div class="num-body">
+        <div class="num-title">सांधेदुखी आणि पाठदुखी</div>
+        <div class="num-desc">इस्ट्रोजेन कमी झाल्याने सांध्यांमध्ये कोरडेपणा येतो, डिस्क कमी hydrated राहतात. तूप, महानारायण तेल, शतावरी — हे तिन्ही खूप मदत करतात.</div>
+      </div>
+    </li>
+    <li>
+      <span class="num" style="font-size:18px;">😴</span>
+      <div class="num-body">
+        <div class="num-title">झोप कमी होणे</div>
+        <div class="num-desc">वात मज्जासंस्थेला रात्री अस्वस्थ करतो. झोपण्यापूर्वी गरम दूध + हळद + चिमूटभर जायफळ. अश्वगंधा गरम दुधातून. रात्री ९ पर्यंत फोन दूर ठेवा.</div>
+      </div>
+    </li>
+    <li>
+      <span class="num" style="font-size:18px;">🧠</span>
+      <div class="num-body">
+        <div class="num-title">थकवा आणि मनःस्थिती बदल</div>
+        <div class="num-desc">ओजस (जीवन सार) पुनर्वितरित होत असतो — शरीर कठोर परिश्रम करत आहे. दुपारी २०-३० मिनिटे विश्रांती घ्या. हे आळशीपणा नाही — हे शरीराची गरज आहे.</div>
+      </div>
+    </li>
+  </ul>
+
+  <!-- HERBS -->
+  <div class="sh"><span class="sh-icon">🌱</span><span class="sh-text">मदत करणाऱ्या आयुर्वेदिक गोष्टी — डॉक्टरांना विचारूनच घ्या</span></div>
+  <div class="herb-grid">
+    <div class="herb">
+      <div class="herb-name">शतावरी</div>
+      <div class="herb-body">रजोनिवृत्तीतील सर्वात महत्त्वाची औषधी. इस्ट्रोजेनला आधार देते. गरम लाटा आणि कोरडेपणा कमी करते. पावडर किंवा टॅब्लेट स्वरूपात उपलब्ध.</div>
+    </div>
+    <div class="herb">
+      <div class="herb-name">अश्वगंधा</div>
+      <div class="herb-body">झोप सुधारते, चिंता कमी करते, सांधेदुखी कमी होते. रात्री झोपण्यापूर्वी गरम दुधासह घ्या. वातासाठी उत्तम.</div>
+    </div>
+    <div class="herb">
+      <div class="herb-name">हळद दूध</div>
+      <div class="herb-body">रोज रात्री झोपण्यापूर्वी. एक चमचा हळद + चिमूटभर जायफळ + गरम दूध. जळजळ कमी होते, झोप चांगली येते.</div>
+    </div>
+    <div class="herb">
+      <div class="herb-name">त्रिफळा</div>
+      <div class="herb-body">वात अवस्थेत पचन मंद होते. झोपण्यापूर्वी एक चमचा गरम पाण्यात घ्या. पोट साफ राहते.</div>
+    </div>
+    <div class="herb">
+      <div class="herb-name">तूप</div>
+      <div class="herb-body">रोज एक चमचा. सांधे, डिस्क, पचन — तिन्हींसाठी. वात संतुलित ठेवते. जेवणात वापरा.</div>
+    </div>
+    <div class="herb">
+      <div class="herb-name">महानारायण तेल</div>
+      <div class="herb-body">सांधे आणि पाठीसाठी मालिश तेल. रात्री झोपण्यापूर्वी थोडे गरम करून दुखणाऱ्या भागावर लावा.</div>
+    </div>
+  </div>
+
+  <!-- DAILY ROUTINE -->
+  <div class="sh"><span class="sh-icon">🕐</span><span class="sh-text">रोजचा दिनक्रम</span></div>
+  <div class="time-row">
+    <div class="tb tb-m">
+      <span class="tb-icon">🌅</span>
+      <span class="tb-time">सकाळ</span>
+      <div class="tb-item">आधी कुशीवर वळून उठा</div>
+      <div class="tb-item">गरम लिंबू पाणी — एक ग्लास</div>
+      <div class="tb-item">५ भिजवलेले बदाम खा</div>
+      <div class="tb-item">तेल मालिश, मग आंघोळ</div>
+      <div class="tb-item">गरम नाश्ता — पोहे, उपमा</div>
+      <div class="tb-item">१० मिनिटे हळूहळू चाला</div>
+    </div>
+    <div class="tb tb-d">
+      <span class="tb-icon">☀️</span>
+      <span class="tb-time">दिवस</span>
+      <div class="tb-item">दर तासाने ५ मिनिटे उठा</div>
+      <div class="tb-item">गरम पाणी — दिवसभर</div>
+      <div class="tb-item">जेवणानंतर पाठीवर गरम पिशवी</div>
+      <div class="tb-item">गरम, शिजवलेले जेवण — डाळ, भात, भाजी, तूप</div>
+      <div class="tb-item">दुपारी १५-२० मिनिटे विश्रांती</div>
+    </div>
+    <div class="tb tb-n">
+      <span class="tb-icon">🌙</span>
+      <span class="tb-time">संध्याकाळ व रात्र</span>
+      <div class="tb-item">जेवणापूर्वी हळूहळू चाला</div>
+      <div class="tb-item">झोपण्यापूर्वी हळद दूध</div>
+      <div class="tb-item">पाय आणि पाठीवर तेल</div>
+      <div class="tb-item">रात्री ९ पर्यंत फोन दूर</div>
+      <div class="tb-item">कुशीवर झोपा, गुडघ्यात उशी</div>
+    </div>
+  </div>
+
+  <!-- FOOD -->
+  <div class="sh"><span class="sh-icon">🍲</span><span class="sh-text">काय खायचे — काय कमी करायचे</span></div>
+  <div class="two" style="margin-bottom:10px;">
+    <div class="do-box">
+      <div class="box-title">जास्त खा</div>
+      <ul class="dot-list">
+        <li>गरम डाळ, खिचडी, भाज्या</li>
+        <li>तूप — रोज एक चमचा</li>
+        <li>तीळ — कॅल्शियमसाठी</li>
+        <li>मेथीदाणे — हार्मोन्ससाठी</li>
+        <li>भिजवलेले बदाम, जवस</li>
+        <li>ताजे खोबरे, नारळ पाणी</li>
+      </ul>
+    </div>
+    <div class="dont-box">
+      <div class="box-title">कमी करा</div>
+      <ul class="dot-list">
+        <li>दुपारी २ नंतर चहा आणि कॉफी</li>
+        <li>तिखट जेवण — गरम लाटा वाढतात</li>
+        <li>थंड पाणी आणि थंड अन्न</li>
+        <li>जास्त लोणचे, चिंच, आंबट</li>
+        <li>पॅकेजयुक्त बिस्किटे, चिप्स</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">शामाने प्रेमाने बनवले 🌸<br/>KALA Care · kala-care.vercel.app</div>
+    <div class="footer-brand">KALA</div>
+  </div>
+</div>
+
+</body>
+</html>
